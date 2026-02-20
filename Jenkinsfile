@@ -1,22 +1,33 @@
 pipeline {
     agent any
-    environment {
-        IMAGE_NAME = 'development/page'
+
+    parameters {
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Select the environment to deploy')
     }
+
     stages {
-        stage('Hello') {
+        stage('Print Selected Environment') {
             steps {
-                echo "${IMAGE_NAME}"
+                echo "Selected Environment: ${params.ENVIRONMENT}"
             }
         }
-        stage('Something to say') {
+
+        stage('Conditional Execution') {
             steps {
-                echo 'This is my first stage & stepd'
-            }
-        }
-        stage('GitHub') {
-            steps {
-                echo 'This stage from GitHub'
+                script {
+                    if (params.ENVIRONMENT == 'dev') {
+                        echo "Deploying to Development environment"
+                        // Add dev deployment logic here
+                    } else if (params.ENVIRONMENT == 'staging') {
+                        echo "Deploying to Staging environment"
+                        // Add staging deployment logic here
+                    } else if (params.ENVIRONMENT == 'prod') {
+                        echo "Deploying to Production environment"
+                        // Add production deployment logic here
+                    } else {
+                        error("Invalid environment selected!")
+                    }
+                }
             }
         }
     }
