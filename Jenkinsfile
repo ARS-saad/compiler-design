@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                echo ${IMAGE_NAME}
+                echo "${IMAGE_NAME}"
             }
         }
         stage('Something to say') {
