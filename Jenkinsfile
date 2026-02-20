@@ -1,10 +1,12 @@
 pipeline {
     agent any
-
+    environment {
+        IMAGE_NAME = 'development/page'
+    }
     stages {
         stage('Hello') {
             steps {
-                echo 'Hello World'
+                echo ${IMAGE_NAME}
             }
         }
         stage('Something to say') {
